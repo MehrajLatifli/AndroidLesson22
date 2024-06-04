@@ -1,0 +1,79 @@
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="category"
+            type="com.example.androidlesson22.models.get.category.Category" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/recipeMaterialCardView"
+        android:layout_width="118dp"
+        android:layout_height="196dp"
+        android:layout_margin="5dp"
+        android:background="@color/White"
+        app:cardCornerRadius="100dp"
+        app:cardElevation="5dp"
+        app:strokeColor="@color/PinkishOrange">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/White">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/imagecardview"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_margin="16dp"
+                android:layout_marginBottom="21dp"
+                app:cardCornerRadius="250dp"
+                app:layout_constraintBottom_toTopOf="@+id/nametextView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/productimageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/logo"/>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.60" />
+
+            <TextView
+                android:id="@+id/nametextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="24dp"
+                android:fontFamily="@font/sofiapro_medium"
+                android:gravity="center|center_horizontal"
+                android:padding="0dp"
+                android:text="@{category.name}"
+                android:textColor="@color/PinkishOrange"
+                android:textSize="12dp"
+                android:textStyle="bold"
+                android:translationZ="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/guideline" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</layout>

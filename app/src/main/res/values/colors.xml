@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="Black">#FF000000</color>
+    <color name="White">#FFFFFFFF</color>
+    <color name="PinkishOrange">#FE724C</color>
+    <color name="LineDriedSheets">#faf6f6</color>
+    <color name="AshViolet">#9796A1</color>
+    <color name="Sambucus">#1b192e</color>
+    <color name="DarkSpell">#30384f</color>
+    <color name="BlackOrchid">#565664</color>
+    <color name="RiverStyx">#111719</color>
+    <color name="Supernatural">#323643</color>
+</resources>
