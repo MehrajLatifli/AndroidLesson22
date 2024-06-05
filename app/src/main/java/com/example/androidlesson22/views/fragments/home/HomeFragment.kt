@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,6 +25,9 @@ import com.example.androidlesson22.views.adapters.CategoryAdapter
 import com.example.androidlesson22.views.adapters.ProductAdapter
 import com.example.androidlesson22.views.fragments.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
@@ -34,35 +38,55 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setUpRecyclerView()
-        observeData()
-        viewModel.getAllCategory()
-        viewModel.getAllProduct()
 
-        categoryAdapter.onClickItem = { categoryName ->
-            viewModel.getProductsByCategory(categoryName)
-        }
+        lifecycleScope.launch(Dispatchers.Main) {
 
-        binding.editText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable?) {
-                val searchText = s.toString().trim()
-                viewModel.searchProducts(searchText)
-                updateSearchDrawable(searchText.isNotEmpty())
+            observeData()
+
+            setUpRecyclerView()
+            viewModel.getAllCategory()
+            viewModel.getAllProduct()
+
+            categoryAdapter.onClickItem = { categoryName ->
+                viewModel.getProductsByCategory(categoryName)
             }
-        })
 
-        productAdapter.onClickItem = { productId ->
-            val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(productId)
-            findNavController().navigate(action)
+            binding.editText.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+                override fun afterTextChanged(s: Editable?) {
+                    val searchText = s.toString().trim()
+                    viewModel.searchProducts(searchText)
+                    updateSearchDrawable(searchText.isNotEmpty())
+                }
+            })
+
+            productAdapter.onClickItem = { productId ->
+                val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(productId)
+                findNavController().navigate(action)
+            }
         }
     }
 
     override fun onResume() {
         super.onResume()
-        categoryAdapter.resetSelectedItemPosition()
-        viewModel.getAllProduct()
+
+        lifecycleScope.launch(Dispatchers.Main) {
+            binding.editText.clearFocus()
+            binding.editText.clearComposingText()
+            binding.editText.text?.clear()
+            categoryAdapter.resetSelectedItemPosition()
+            observeData()
+        }
+
+
     }
 
     private fun observeData() {
@@ -71,6 +95,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 categoryAdapter.updateList(it)
             }
         }
+
         viewModel.products.observe(viewLifecycleOwner) { item ->
             item?.let {
                 productAdapter.updateList(it)
@@ -105,12 +130,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     }
 
     private fun hideOtherWidgets() {
-        binding.recycleViewCategories.gone()
+        // binding.recycleViewCategories.gone()
         binding.recycleViewProduct.gone()
     }
 
     private fun showOtherWidgets() {
-        binding.recycleViewCategories.visible()
+       // binding.recycleViewCategories.visible()
         binding.recycleViewProduct.visible()
     }
 

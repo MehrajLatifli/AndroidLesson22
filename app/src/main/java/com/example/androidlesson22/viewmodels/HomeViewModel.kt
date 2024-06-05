@@ -15,6 +15,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import kotlinx.coroutines.delay
+
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(private val repo: CategoryRepository, private val repo2: ProductRepository) : ViewModel() {
@@ -35,6 +37,8 @@ class HomeViewModel @Inject constructor(private val repo: CategoryRepository, pr
     fun getAllCategory() {
         loading.value = true
         viewModelScope.launch(Dispatchers.Main) {
+
+            delay(1000L)
 
                 val response = repo.getAllCategory()
 

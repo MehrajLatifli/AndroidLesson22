@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.androidlesson22.R
@@ -18,6 +19,8 @@ import com.example.androidlesson22.utilities.visible
 import com.example.androidlesson22.viewmodels.DetailViewModel
 import com.example.androidlesson22.views.fragments.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding::inflate) {
@@ -28,9 +31,11 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val productId = args.id.toInt()
-        viewModel.getProductById(productId)
-        observeData()
+        lifecycleScope.launch(Dispatchers.Main) {
+            val productId = args.id.toInt()
+            viewModel.getProductById(productId)
+            observeData()
+        }
 
     }
 
