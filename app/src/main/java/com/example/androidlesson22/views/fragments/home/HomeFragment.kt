@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.androidlesson22.R
@@ -27,20 +28,12 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
 
-
     private var categoryAdapter = CategoryAdapter()
-
-
     private var productAdapter = ProductAdapter()
-
     private val viewModel by viewModels<HomeViewModel>()
-
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
         setUpRecyclerView()
         observeData()
         viewModel.getAllCategory()
@@ -52,22 +45,24 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
         binding.editText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-
             override fun afterTextChanged(s: Editable?) {
                 val searchText = s.toString().trim()
                 viewModel.searchProducts(searchText)
-
-                if (searchText.isNotBlank() && searchText.isNotEmpty()) {
-                    binding.editText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.search, 0, 0, 0)
-                    binding.editText.compoundDrawables[0].setTint(ContextCompat.getColor(requireContext(), R.color.PinkishOrange))
-                } else {
-                    binding.editText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.search, 0, 0, 0)
-                    binding.editText.compoundDrawables[0].setTint(ContextCompat.getColor(requireContext(), R.color.BlackOrchid))
-                }
+                updateSearchDrawable(searchText.isNotEmpty())
             }
         })
+
+        productAdapter.onClickItem = { productId ->
+            val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(productId)
+            findNavController().navigate(action)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        categoryAdapter.resetSelectedItemPosition()
+        viewModel.getAllProduct()
     }
 
     private fun observeData() {
@@ -95,16 +90,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         viewModel.error.observe(viewLifecycleOwner) { errorMessage ->
             errorMessage?.let {
                 Toast.makeText(context, it, Toast.LENGTH_LONG).show()
-                Log.e("responseError", it)
             }
         }
-
-
     }
 
     private fun setUpRecyclerView() {
-
-
         val linearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding.recycleViewCategories.layoutManager = linearLayoutManager
         binding.recycleViewCategories.adapter = categoryAdapter
@@ -115,18 +105,21 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     }
 
     private fun hideOtherWidgets() {
-
-
         binding.recycleViewCategories.gone()
         binding.recycleViewProduct.gone()
-
     }
 
     private fun showOtherWidgets() {
-
         binding.recycleViewCategories.visible()
         binding.recycleViewProduct.visible()
-
     }
+
+    private fun updateSearchDrawable(isSearchActive: Boolean) {
+        val drawableId = if (isSearchActive) R.drawable.search else R.drawable.search
+        val tintColorId = if (isSearchActive) R.color.PinkishOrange else R.color.BlackOrchid
+        binding.editText.setCompoundDrawablesWithIntrinsicBounds(drawableId, 0, 0, 0)
+        binding.editText.compoundDrawables[0].setTint(ContextCompat.getColor(requireContext(), tintColorId))
+    }
+
 
 }

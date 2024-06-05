@@ -3,10 +3,12 @@ package com.example.androidlesson22.views.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidlesson22.R
 import com.example.androidlesson22.databinding.ItemProductBinding
 import com.example.androidlesson22.models.get.product.Product
+import com.example.androidlesson22.views.fragments.home.HomeFragmentDirections
 
 
 class ProductAdapter: RecyclerView.Adapter<ProductAdapter.UserViewHolder>() {
@@ -14,6 +16,8 @@ class ProductAdapter: RecyclerView.Adapter<ProductAdapter.UserViewHolder>() {
     private val List = arrayListOf<Product>()
 
     lateinit var onClickItem: (String) -> Unit
+
+
 
     inner class UserViewHolder(val itemBinding: ItemProductBinding) :
         RecyclerView.ViewHolder(itemBinding.root)
@@ -36,6 +40,12 @@ class ProductAdapter: RecyclerView.Adapter<ProductAdapter.UserViewHolder>() {
         val rating = item.rating
         setStarRating(rating, holder.itemBinding.star1, holder.itemBinding.star2, holder.itemBinding.star3, holder.itemBinding.star4, holder.itemBinding.star5)
 
+        holder.itemBinding.basketButton.setOnClickListener {
+            onClickItem.invoke(item.id.toString())
+
+
+        }
+
     }
 
     private fun setStarRating(rating: Double?, vararg starImageViews: ImageView) {
@@ -56,4 +66,6 @@ class ProductAdapter: RecyclerView.Adapter<ProductAdapter.UserViewHolder>() {
         List.addAll(newList)
         notifyDataSetChanged()
     }
+
+
 }

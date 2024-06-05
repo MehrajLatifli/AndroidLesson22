@@ -26,7 +26,7 @@ fun ImageView.loadImageWithoutBindingAdapter(url: String?) {
     Glide
         .with(this)
         .load(url)
-        .centerCrop().placeholder(R.drawable.ic_launcher_background)
+        .centerCrop().placeholder(R.color.Transparent)
         .into(this)
 }
 
@@ -52,7 +52,7 @@ fun ImageView.loadImage(url: String?) {
     Glide
         .with(this)
         .load(url)
-        .centerCrop().placeholder(R.drawable.ic_launcher_background)
+        .centerCrop().placeholder(R.color.Transparent)
         .into(this)
 }
 
@@ -86,7 +86,7 @@ fun loadImageFromList(imageView: ImageView, imageList: List<String>?) {
                 Glide.with(imageView.context)
                     .load(imageUrl)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .placeholder(R.drawable.ic_launcher_background)
+                    .placeholder(R.color.Transparent)
                     .centerCrop()
                     .into(imageView)
 

@@ -44,7 +44,11 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
             findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToSignupFragment())
         }
 
-        showPassword(binding.editText3, binding.imageViewEye)
+
+        binding.imageViewEye.setOnClickListener {
+
+            showPassword(binding.editText3, binding.imageViewEye)
+        }
     }
 
 

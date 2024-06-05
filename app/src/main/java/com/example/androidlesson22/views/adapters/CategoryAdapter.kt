@@ -74,4 +74,9 @@ class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.UserViewHolder>() {
         categoryList.addAll(newList)
         notifyDataSetChanged()
     }
+
+    fun resetSelectedItemPosition() {
+        selectedItemPosition = RecyclerView.NO_POSITION
+        notifyDataSetChanged()
+    }
 }

@@ -34,13 +34,14 @@ class HomeViewModel @Inject constructor(private val repo: CategoryRepository, pr
 
     fun getAllCategory() {
         loading.value = true
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
+        viewModelScope.launch(Dispatchers.Main) {
+
                 val response = repo.getAllCategory()
 
-                withContext(Dispatchers.Main) {
+
                     when (response) {
                         is Resource.Success -> {
+                            loading.value = false
                             val itemresponse = response.data
                             if (itemresponse != null && itemresponse.isNotEmpty()) {
                                 _categories.value = itemresponse!!
@@ -54,32 +55,24 @@ class HomeViewModel @Inject constructor(private val repo: CategoryRepository, pr
                             error.value = "Failed to fetch categories: ${response.message}"
                         }
                         else -> {
-
+                            loading.value = false
                         }
                     }
-                }
-            } catch (e: Exception) {
-                withContext(Dispatchers.Main) {
-                    error.value = e.localizedMessage ?: "An error occurred"
-                }
-            } finally {
-                withContext(Dispatchers.Main) {
-                    loading.value = false
-                }
-            }
+
+
         }
     }
 
 
     fun getAllProduct() {
         loading.value = true
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
+        viewModelScope.launch(Dispatchers.Main) {
+
                 val response = repo2.getAllProduct()
 
-                withContext(Dispatchers.Main) {
                     when (response) {
                         is Resource.Success -> {
+                            loading.value = false
                             val itemResponse = response.data
                             if (itemResponse != null && itemResponse.products != null) {
                                 _products.value = itemResponse.products.orEmpty()
@@ -93,31 +86,24 @@ class HomeViewModel @Inject constructor(private val repo: CategoryRepository, pr
                             error.value = "Failed to fetch products: ${response.message}"
                         }
                         else -> {
-
+                            loading.value = false
                         }
                     }
-                }
-            } catch (e: Exception) {
-                withContext(Dispatchers.Main) {
-                    error.value = e.localizedMessage ?: "An error occurred"
-                }
-            } finally {
-                withContext(Dispatchers.Main) {
-                    loading.value = false
-                }
-            }
+
+
         }
     }
 
     fun getProductsByCategory(categoryName: String) {
         loading.value = true
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
+        viewModelScope.launch(Dispatchers.Main) {
+
                 val response = repo2.getProductsbyCategory(categoryName)
                 Log.e("TAG", "getProductsByCategory: ${response.toString()}")
-                withContext(Dispatchers.Main) {
+
                     when (response) {
                         is Resource.Success -> {
+                            loading.value = false
                             val itemResponse = response.data
                             if (itemResponse != null && itemResponse.products!!.isNotEmpty()) {
                                 _products.value = itemResponse.products.filterNotNull()
@@ -133,19 +119,11 @@ class HomeViewModel @Inject constructor(private val repo: CategoryRepository, pr
                             Log.e("TAG", "getProductsByCategory: ${response.message}")
                         }
                         else -> {
-                            // Handle other cases if necessary
+                            loading.value = false
                         }
                     }
-                }
-            } catch (e: Exception) {
-                withContext(Dispatchers.Main) {
-                    error.value = e.localizedMessage ?: "An error occurred"
-                }
-            } finally {
-                withContext(Dispatchers.Main) {
-                    loading.value = false
-                }
-            }
+
+
         }
     }
 

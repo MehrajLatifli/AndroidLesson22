@@ -31,6 +31,7 @@
                 android:layout_margin="16dp"
                 android:layout_marginBottom="21dp"
                 app:cardCornerRadius="250dp"
+                android:background="@color/White"
                 app:layout_constraintBottom_toTopOf="@+id/nametextView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -41,8 +42,9 @@
                     android:id="@+id/productimageView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/logo"/>
+                    android:background="@color/White"
+                    android:scaleType="center"
+                    android:src="@drawable/category"/>
             </androidx.cardview.widget.CardView>
 
             <androidx.constraintlayout.widget.Guideline
