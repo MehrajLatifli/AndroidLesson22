@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
-<androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/detailConstraintLayout"
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/detailConstraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/White"
     android:paddingBottom="68dp"
-
-    tools:context=".views.fragments.detail.DetailFragment"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".views.fragments.detail.DetailFragment">
 
     <include
         android:id="@+id/progressBarContainer"
@@ -40,7 +37,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
 
         <ImageView
             android:id="@+id/imageView"
@@ -151,7 +147,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0">
-
         </ImageView>
 
         <ImageView
@@ -166,7 +161,6 @@
             app:layout_constraintStart_toEndOf="@+id/star1"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0">
-
         </ImageView>
 
         <ImageView
@@ -181,7 +175,6 @@
             app:layout_constraintStart_toEndOf="@+id/star2"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0">
-
         </ImageView>
 
         <ImageView
@@ -196,7 +189,6 @@
             app:layout_constraintStart_toEndOf="@+id/star3"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0">
-
         </ImageView>
 
         <ImageView
@@ -213,20 +205,14 @@
             app:layout_constraintStart_toEndOf="@+id/star4"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0">
-
         </ImageView>
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.40
-"  />
+        app:layout_constraintGuide_percent="0.40" />
 </androidx.constraintlayout.widget.ConstraintLayout>

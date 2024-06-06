@@ -124,9 +124,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         binding.recycleViewCategories.layoutManager = linearLayoutManager
         binding.recycleViewCategories.adapter = categoryAdapter
 
-        val gridLayoutManager = GridLayoutManager(context, 2)
+        val spanCount = if (isTablet()) 4 else 2
+        val gridLayoutManager = GridLayoutManager(context, spanCount )
         binding.recycleViewProduct.layoutManager = gridLayoutManager
         binding.recycleViewProduct.adapter = productAdapter
+    }
+
+    private fun isTablet(): Boolean {
+
+        val configuration = resources.configuration
+        return configuration.smallestScreenWidthDp >= 600
     }
 
     private fun hideOtherWidgets() {

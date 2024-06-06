@@ -32,6 +32,14 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
         super.onViewCreated(view, savedInstanceState)
 
         lifecycleScope.launch(Dispatchers.Main) {
+
+            val guidelinePercent = if (isTablet()) 0.50f else 0.40f
+            val scaleType = if (isTablet()) ImageView.ScaleType.FIT_XY else ImageView.ScaleType.CENTER_CROP
+            binding.guideline5.setGuidelinePercent(guidelinePercent)
+            binding.imageView.scaleType = scaleType
+
+
+
             val productId = args.id.toInt()
             viewModel.getProductById(productId)
             observeData()
@@ -93,5 +101,11 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
         }
     }
 
+
+    private fun isTablet(): Boolean {
+
+        val configuration = resources.configuration
+        return configuration.smallestScreenWidthDp >= 600
+    }
 
 }
