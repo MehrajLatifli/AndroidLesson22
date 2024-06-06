@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/White"
     tools:context=".views.fragments.auth.signup.SignupFragment">
 
     <include
@@ -224,6 +225,7 @@
             android:paddingRight="60dp"
             android:paddingBottom="18dp"
             android:text="SIGN UP"
+            style="@style/TextStyle"
             app:cornerRadius="25dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"

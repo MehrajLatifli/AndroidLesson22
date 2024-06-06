@@ -14,4 +14,8 @@
     </style>
 
     <style name="Theme.AndroidLesson22" parent="Base.Theme.AndroidLesson22" />
+
+    <style name="TextStyle">
+        <item name="android:textColor">@color/White</item> <!-- Light mode text color -->
+    </style>
 </resources>

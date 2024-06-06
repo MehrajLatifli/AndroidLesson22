@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/White"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".views.fragments.auth.login.LoginFragment">
 
@@ -169,6 +170,7 @@
             android:paddingRight="60dp"
             android:paddingBottom="18dp"
             android:text="LOGIN"
+            style="@style/TextStyle"
             app:cornerRadius="25dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"

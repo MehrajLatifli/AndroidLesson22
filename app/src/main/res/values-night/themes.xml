@@ -4,11 +4,17 @@
         <item name="windowSplashScreenBackground">@color/PinkishOrange</item>
         <item name="windowSplashScreenIconBackgroundColor">@color/PinkishOrange</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/logo</item>
-
         <item name="postSplashScreenTheme">@style/Theme.AndroidLesson22</item>
 
         <item name="windowSplashScreenAnimationDuration">500</item>
 
+        <item name="android:textColor">@color/White</item>
 
+
+    </style>
+
+
+    <style name="TextStyle">
+        <item name="android:textColor">@color/Black</item> <!-- Light mode text color -->
     </style>
 </resources>
