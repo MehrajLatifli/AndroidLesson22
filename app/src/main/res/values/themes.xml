@@ -1,21 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+
     <!-- Base application theme. -->
     <style name="Base.Theme.AndroidLesson22" parent="Theme.Material3.DayNight.NoActionBar">
 
-        <item name="windowSplashScreenBackground">@color/PinkishOrange</item>
-        <item name="windowSplashScreenIconBackgroundColor">@color/PinkishOrange</item>
+        <!-- Set window splash screen background color -->
+        <item name="android:windowSplashScreenBackground">@color/PinkishOrange</item>
+        <item name="android:windowSplashScreenIconBackgroundColor">@color/PinkishOrange</item>
 
+        <!-- Set other splash screen attributes -->
         <item name="windowSplashScreenAnimatedIcon">@drawable/logo</item>
-
         <item name="postSplashScreenTheme">@style/Theme.AndroidLesson22</item>
-
-        <item name="windowSplashScreenAnimationDuration">500</item>
+        <item name="android:windowSplashScreenAnimationDuration">2500</item>
 
     </style>
 
+    <!-- Theme for the rest of the application -->
     <style name="Theme.AndroidLesson22" parent="Base.Theme.AndroidLesson22" />
 
+    <!-- Define text style -->
     <style name="TextStyle">
         <item name="android:textColor">@color/White</item> <!-- Light mode text color -->
     </style>
+
 </resources>

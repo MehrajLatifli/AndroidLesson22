@@ -1,26 +1,26 @@
 package com.example.androidlesson22.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.auth.FirebaseAuth
+import com.example.androidlesson22.source.remote.api.Resource
+import com.example.androidlesson22.source.remote.api.repositories.FirebaseAuthRepository
+import com.google.firebase.auth.AuthResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AuthViewModel  @Inject constructor(): ViewModel() {
-
-    private val auth = FirebaseAuth.getInstance()
+class AuthViewModel @Inject constructor(private val firebaseAuthRepository: FirebaseAuthRepository) :
+    ViewModel() {
 
     private val _isLogin = MutableLiveData<Boolean>()
     val isLogin: LiveData<Boolean> get() = _isLogin
 
     private val _loading = MutableLiveData<Boolean>()
-    val loading: LiveData<Boolean> = _loading
+    val loading: LiveData<Boolean> get() = _loading
 
     private val _error = MutableLiveData<String>()
     val error: LiveData<String> get() = _error
@@ -29,11 +29,16 @@ class AuthViewModel  @Inject constructor(): ViewModel() {
         _loading.value = true
 
         viewModelScope.launch(Dispatchers.IO) {
-            auth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
-                Log.e("result", it.isSuccessful.toString())
-                _isLogin.value = it.isSuccessful
-                _loading.value = false
+            val result = firebaseAuthRepository.loginUser(email, password)
+            when (result) {
+                is Resource.Success<AuthResult> -> {
+                    _isLogin.postValue(true)
+                }
+                is Resource.Error<AuthResult> -> {
+                    _error.postValue(result.errorMessage ?: "Unknown error")
+                }
             }
+            _loading.postValue(false)
         }
     }
 
@@ -41,14 +46,16 @@ class AuthViewModel  @Inject constructor(): ViewModel() {
         _loading.value = true
 
         viewModelScope.launch(Dispatchers.IO) {
-            auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
-                if (it.isSuccessful) {
-                    _isLogin.value = true
-                } else {
-                    _error.value = it.exception?.localizedMessage
+            val result = firebaseAuthRepository.registerUser(email, password)
+            when (result) {
+                is Resource.Success<AuthResult> -> {
+                    _isLogin.postValue(true)
                 }
-                _loading.value = false
+                is Resource.Error<AuthResult> -> {
+                    _error.postValue(result.errorMessage ?: "Unknown error")
+                }
             }
+            _loading.postValue(false)
         }
     }
 }

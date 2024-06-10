@@ -3,13 +3,13 @@ package com.example.androidlesson22.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.androidlesson22.api.repositories.ProductRepository
+import com.example.androidlesson22.source.remote.api.repositories.ProductRepository
 import com.example.androidlesson22.models.get.product.Product
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 import androidx.lifecycle.viewModelScope
-import com.example.androidlesson22.api.Resource
+import com.example.androidlesson22.source.remote.api.Resource
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 

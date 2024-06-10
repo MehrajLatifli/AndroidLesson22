@@ -1,4 +1,4 @@
-package com.example.androidlesson22.api
+package com.example.androidlesson22.source.remote.api
 
 import com.example.androidlesson22.models.get.category.Category
 import com.example.androidlesson22.models.get.category.CategoryResponse

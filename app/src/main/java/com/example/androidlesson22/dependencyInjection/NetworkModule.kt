@@ -1,7 +1,8 @@
 package com.example.androidlesson22.dependencyInjection
 
-import com.example.androidlesson22.api.IApiManager
+import com.example.androidlesson22.source.remote.api.IApiManager
 import com.example.androidlesson22.utilities.Constants.Base_URL
+import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -27,5 +28,9 @@ object NetworkModule {
     fun provideIApiManager(retrofit: Retrofit): IApiManager {
         return  retrofit.create(IApiManager::class.java)
     }
+
+    @Singleton
+    @Provides
+    fun provideFirebaseAuth() = FirebaseAuth.getInstance()
 
 }

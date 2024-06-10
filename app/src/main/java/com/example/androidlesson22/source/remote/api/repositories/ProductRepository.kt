@@ -1,8 +1,8 @@
-package com.example.androidlesson22.api.repositories
+package com.example.androidlesson22.source.remote.api.repositories
 
 import android.util.Log
-import com.example.androidlesson22.api.IApiManager
-import com.example.androidlesson22.api.Resource
+import com.example.androidlesson22.source.remote.api.IApiManager
+import com.example.androidlesson22.source.remote.api.Resource
 import com.example.androidlesson22.models.get.category.Category
 import com.example.androidlesson22.models.get.product.Product
 import com.example.androidlesson22.models.get.product.ProductResponse

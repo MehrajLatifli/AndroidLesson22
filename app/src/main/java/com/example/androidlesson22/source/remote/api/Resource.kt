@@ -1,4 +1,4 @@
-package com.example.androidlesson22.api
+package com.example.androidlesson22.source.remote.api
 
 sealed class Resource<T>(val data: T? = null, val message: String? = null) {
 

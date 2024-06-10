@@ -1,5 +1,6 @@
 package com.example.androidlesson22.views.fragments.auth.login
 
+import android.content.Context
 import android.os.Bundle
 import android.text.InputType
 import androidx.fragment.app.Fragment
@@ -87,6 +88,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
 
         viewModel.isLogin.observe(viewLifecycleOwner) {
             if (it) {
+                setUserAuth()
 
                 findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToHomeFragment())
             } else {
@@ -108,4 +110,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
 
     }
 
+    private fun setUserAuth() {
+        val sp = requireActivity().getSharedPreferences("firebase_local", Context.MODE_PRIVATE)
+
+        sp.edit().putBoolean("isAuth", true).apply()
+    }
 }
