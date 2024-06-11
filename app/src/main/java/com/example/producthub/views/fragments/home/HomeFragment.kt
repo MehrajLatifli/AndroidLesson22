@@ -71,6 +71,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 viewModel.searchProducts(searchText)
                 updateSearchDrawable(searchText.isNotEmpty())
             }
+
+
         }
 
 
