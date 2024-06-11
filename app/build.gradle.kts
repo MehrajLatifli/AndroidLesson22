@@ -175,6 +175,8 @@ dependencies {
 
     kapt("androidx.room:room-compiler:$room_version")
 
+    implementation ("androidx.core:core-ktx:1.13.0")
+
 }
 
 kapt {

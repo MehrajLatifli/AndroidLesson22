@@ -6,6 +6,7 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
@@ -59,22 +60,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
             }
 
-            binding.editText.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(
-                    s: CharSequence?,
-                    start: Int,
-                    count: Int,
-                    after: Int
-                ) {
-                }
 
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-                override fun afterTextChanged(s: Editable?) {
-                    val searchText = s.toString().trim()
-                    viewModel.searchProducts(searchText)
-                    updateSearchDrawable(searchText.isNotEmpty())
-                }
-            })
+
+
+
+        binding.editText.addTextChangedListener {
+
+            viewLifecycleOwner.lifecycleScope.launch {
+                val searchText = binding.editText.text.toString().trim()
+                viewModel.searchProducts(searchText)
+                updateSearchDrawable(searchText.isNotEmpty())
+            }
+        }
+
+
 
             productAdapter.onClickItem = { productId ->
                 val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(productId)
@@ -97,7 +96,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 clearComposingText()
                 text?.clear()
             }
+
             categoryAdapter.resetSelectedItemPosition()
+
+        binding.recycleViewCategories.scrollToPosition(0)
+
 
     }
 
