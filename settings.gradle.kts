@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "AndroidLesson22"
+rootProject.name = "Product Hub"
 include(":app")
  

@@ -12,7 +12,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.androidlesson22"
+    namespace = "com.example.producthub"
     compileSdk = 34
 
 
@@ -25,11 +25,12 @@ android {
         create("customDebugType") {
             isDebuggable = true
         }
+
     }
 
 
     defaultConfig {
-        applicationId = "com.example.androidlesson22"
+        applicationId = "com.example.producthub"
         minSdk = 33
         targetSdk = 34
         versionCode = 1
