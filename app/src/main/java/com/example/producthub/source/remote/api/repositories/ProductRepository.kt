@@ -42,11 +42,11 @@ class ProductRepository @Inject constructor(private val api: IApiManager) {
                 if (response.isSuccessful) {
                     Resource.Success(response.body())
                 } else {
-                    Log.e("gggg", response.toString())
+                    Log.e("Resource.Error", response.toString())
                     Resource.Error(response.message())
                 }
             } catch (e: Exception) {
-                Log.e("xera", e.localizedMessage.toString())
+                Log.e("Resource.Error2", e.localizedMessage.toString())
                 Resource.Error(e.localizedMessage)
             }
         }

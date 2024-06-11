@@ -77,10 +77,12 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
     }
 
     private fun hideOtherWidgets() {
+        binding.starConstraintLayout.gone()
         binding.detailConstraintLayout.gone()
     }
 
     private fun showOtherWidgets() {
+        binding.starConstraintLayout.visible()
         binding.detailConstraintLayout.visible()
     }
 

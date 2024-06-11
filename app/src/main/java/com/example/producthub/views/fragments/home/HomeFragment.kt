@@ -51,7 +51,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 viewModel.getProductsByCategory(categoryName)
 
 
-                binding.recycleViewProduct.scrollToPosition(0)
 
                 with(binding.editText) {
                     clearFocus()
@@ -106,7 +105,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
             categoryAdapter.resetSelectedItemPosition()
 
-        binding.recycleViewProduct.scrollToPosition(0)
         binding.recycleViewCategories.scrollToPosition(0)
 
 
