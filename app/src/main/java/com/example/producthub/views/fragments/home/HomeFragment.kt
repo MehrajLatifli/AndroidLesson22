@@ -69,8 +69,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         binding.editText.addTextChangedListener {
 
             viewLifecycleOwner.lifecycleScope.launch {
+
+                delay(200)
                 val searchText = binding.editText.text.toString().trim()
+                delay(200)
                 viewModel.searchProducts(searchText)
+                delay(200)
                 updateSearchDrawable(searchText.isNotEmpty())
             }
 
