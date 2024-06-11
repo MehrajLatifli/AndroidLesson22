@@ -51,8 +51,8 @@ class HomeViewModel @Inject constructor(
                     loading.value = false
                     val itemresponse = response.data
                     if (itemresponse != null && itemresponse.isNotEmpty()) {
-                        _categories.value = itemresponse
-                        originalCategoryList=itemresponse
+                        _categories.value = itemresponse.orEmpty()
+                        originalCategoryList=itemresponse.orEmpty()
                     } else {
                         error.value = "No categories found"
                         _categories.value = emptyList()
@@ -157,7 +157,7 @@ class HomeViewModel @Inject constructor(
             val filtered = _products.value?.filter { item ->
                 item.title?.contains(query, ignoreCase = true) ?: false
             }
-            _products.value = filtered
+            _products.value = filtered.orEmpty()
         }
     }
 }
