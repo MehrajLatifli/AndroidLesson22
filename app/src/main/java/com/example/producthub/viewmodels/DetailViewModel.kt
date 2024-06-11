@@ -10,6 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 import androidx.lifecycle.viewModelScope
 import com.example.producthub.source.remote.api.Resource
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @HiltViewModel

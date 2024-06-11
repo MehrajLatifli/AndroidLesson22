@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,7 +21,10 @@ import com.example.producthub.views.adapters.CategoryAdapter
 import com.example.producthub.views.adapters.ProductAdapter
 import com.example.producthub.views.fragments.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
@@ -33,40 +37,68 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         super.onViewCreated(view, savedInstanceState)
 
         observeData()
-        setUpRecyclerView()
 
-        viewModel.getAllCategory()
-        viewModel.getAllProduct()
 
-        categoryAdapter.onClickItem = { categoryName ->
-            viewModel.getProductsByCategory(categoryName)
-        }
 
-        binding.editText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable?) {
-                val searchText = s.toString().trim()
-                viewModel.searchProducts(searchText)
-                updateSearchDrawable(searchText.isNotEmpty())
+            viewModel.getAllCategory()
+            viewModel.getAllProduct()
+
+            setUpRecyclerView()
+
+            categoryAdapter.onClickItem = { categoryName ->
+
+                viewModel.getProductsByCategory(categoryName)
+
+
+                with(binding.editText) {
+                    clearFocus()
+                    clearComposingText()
+                    text?.clear()
+                }
+
+
             }
-        })
 
-        productAdapter.onClickItem = { productId ->
-            val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(productId)
-            findNavController().navigate(action)
-        }
+            binding.editText.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+                override fun afterTextChanged(s: Editable?) {
+                    val searchText = s.toString().trim()
+                    viewModel.searchProducts(searchText)
+                    updateSearchDrawable(searchText.isNotEmpty())
+                }
+            })
+
+            productAdapter.onClickItem = { productId ->
+                val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(productId)
+                findNavController().navigate(action)
+            }
+
     }
 
     override fun onResume() {
         super.onResume()
+
         observeData()
-        with(binding.editText) {
-            clearFocus()
-            clearComposingText()
-            text?.clear()
-        }
-        categoryAdapter.resetSelectedItemPosition()
+
+
+
+        hideOtherWidgets()
+
+            with(binding.editText) {
+                clearFocus()
+                clearComposingText()
+                text?.clear()
+            }
+            categoryAdapter.resetSelectedItemPosition()
+
     }
 
     private fun observeData() {
@@ -116,9 +148,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     }
 
     private fun showOtherWidgets() {
+
         binding.recycleViewProduct.visible()
     }
 
+    private fun hideOtherWidgets() {
+        binding.recycleViewProduct.gone()
+    }
     private fun updateSearchDrawable(isSearchActive: Boolean) {
         val drawableId = if (isSearchActive) R.drawable.search else R.drawable.search
         val tintColorId = if (isSearchActive) R.color.PinkishOrange else R.color.BlackOrchid

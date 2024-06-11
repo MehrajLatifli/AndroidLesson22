@@ -35,10 +35,16 @@ class HomeViewModel @Inject constructor(
     val loading = MutableLiveData<Boolean>()
     val error = MutableLiveData<String?>()
 
+
+    private var originalCategoryList = listOf<Category>()
+    private var originalProductList = listOf<Product>()
+
+
     fun getAllCategory() {
         loading.value = true
         viewModelScope.launch(Dispatchers.Main) {
 
+            delay(100)
             val response = repo.getAllCategory()
             when (response) {
                 is Resource.Success -> {
@@ -46,6 +52,7 @@ class HomeViewModel @Inject constructor(
                     val itemresponse = response.data
                     if (itemresponse != null && itemresponse.isNotEmpty()) {
                         _categories.value = itemresponse
+                        originalCategoryList=itemresponse
                     } else {
                         error.value = "No categories found"
                         _categories.value = emptyList()
@@ -64,9 +71,11 @@ class HomeViewModel @Inject constructor(
     fun getAllProduct() {
         loading.value = true
         viewModelScope.launch(Dispatchers.Main) {
+            delay(100)
             val localProducts = repo3.getProductEntity()
             if (localProducts.isNotEmpty()) {
                 _products.value = localProducts.map { it.toProduct() }
+                originalProductList=localProducts.map { it.toProduct() }
                 loading.value = false
             } else {
                 fetchRemoteProducts()
@@ -76,6 +85,7 @@ class HomeViewModel @Inject constructor(
 
     private fun fetchRemoteProducts() {
         viewModelScope.launch(Dispatchers.Main) {
+            delay(100)
             val response = repo2.getAllProduct()
             when (response) {
                 is Resource.Success -> {
@@ -83,6 +93,7 @@ class HomeViewModel @Inject constructor(
                     val itemResponse = response.data
                     if (itemResponse != null && itemResponse.products != null) {
                         _products.value = itemResponse.products.orEmpty()
+                        originalProductList=itemResponse.products.orEmpty()
                         itemResponse.products.forEach { product ->
                             withContext(Dispatchers.IO) {
                                 repo3.addProductEntity(product.toProductEntity())
@@ -106,6 +117,7 @@ class HomeViewModel @Inject constructor(
     fun getProductsByCategory(categoryName: String) {
         loading.value = true
         viewModelScope.launch(Dispatchers.Main) {
+            delay(100)
             val response = if (categoryName.isNotEmpty()) {
                 repo2.getProductsbyCategory(categoryName)
             } else {
@@ -118,6 +130,7 @@ class HomeViewModel @Inject constructor(
                     val itemResponse = response.data
                     if (itemResponse != null && itemResponse.products != null) {
                         _products.value = itemResponse.products.orEmpty()
+                        originalProductList = itemResponse.products.orEmpty()
                     } else {
                         error.value = "No products found for this category"
                         _products.value = emptyList()
@@ -135,14 +148,16 @@ class HomeViewModel @Inject constructor(
     }
 
     fun searchProducts(query: String) {
-        if (query.isBlank()) {
-            _products.value = emptyList()
-            return
-        }
+        viewModelScope.launch(Dispatchers.Main) {
+            if (query.isBlank()) {
+                _products.value = originalProductList
 
-        val filtered = _products.value?.filter { item ->
-            item.title?.contains(query, ignoreCase = true) ?: false
+            }
+
+            val filtered = _products.value?.filter { item ->
+                item.title?.contains(query, ignoreCase = true) ?: false
+            }
+            _products.value = filtered
         }
-        _products.value = filtered
     }
 }

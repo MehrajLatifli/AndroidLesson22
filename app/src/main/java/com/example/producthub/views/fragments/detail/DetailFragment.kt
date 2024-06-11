@@ -16,6 +16,7 @@ import com.example.producthub.viewmodels.DetailViewModel
 import com.example.producthub.views.fragments.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -27,7 +28,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        lifecycleScope.launch(Dispatchers.Main) {
+
 
             val guidelinePercent = if (isTablet()) 0.50f else 0.40f
             val scaleType = if (isTablet()) ImageView.ScaleType.FIT_XY else ImageView.ScaleType.CENTER_CROP
@@ -39,7 +40,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
             val productId = args.id.toInt()
             viewModel.getProductById(productId)
             observeData()
-        }
+
 
     }
 
