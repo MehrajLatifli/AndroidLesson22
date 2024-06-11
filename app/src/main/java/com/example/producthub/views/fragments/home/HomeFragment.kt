@@ -72,7 +72,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 updateSearchDrawable(searchText.isNotEmpty())
             }
 
-
         }
 
 
