@@ -23,6 +23,7 @@ import com.example.producthub.views.adapters.ProductAdapter
 import com.example.producthub.views.fragments.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -33,6 +34,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private val categoryAdapter = CategoryAdapter()
     private val productAdapter = ProductAdapter()
     private val viewModel by viewModels<HomeViewModel>()
+
+
+    private var searchJob: Job? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -64,24 +68,33 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
 
 
+        binding.editText.addTextChangedListener { text ->
 
-        binding.editText.addTextChangedListener {
-
-            viewLifecycleOwner.lifecycleScope.launch {
-
-                delay(200)
-                val searchText = binding.editText.text.toString().trim()
-                delay(200)
+            searchJob?.cancel()
+            searchJob = lifecycleScope.launch(Dispatchers.Main) {
+                delay(100)
+                val searchText = text.toString().trim()
                 viewModel.searchProducts(searchText)
-                delay(200)
-                updateSearchDrawable(searchText.isNotEmpty())
+
+
+                if (searchText.isNotBlank() && searchText.isNotEmpty()) {
+                    updateSearchDrawable(true)
+                } else {
+                    updateSearchDrawable(false)
+                }
             }
 
         }
 
 
 
-            productAdapter.onClickItem = { productId ->
+
+
+
+
+
+
+        productAdapter.onClickItem = { productId ->
                 val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(productId)
                 findNavController().navigate(action)
             }

@@ -148,16 +148,18 @@ class HomeViewModel @Inject constructor(
     }
 
     fun searchProducts(query: String) {
-        viewModelScope.launch(Dispatchers.Main) {
+
             if (query.isBlank()) {
                 _products.value = originalProductList
 
             }
 
-            val filtered = _products.value?.filter { item ->
+            val filtered = originalProductList.filter { item ->
                 item.title?.contains(query, ignoreCase = true) ?: false
             }
-            _products.value = filtered.orEmpty()
-        }
+            _products.value = filtered
+
     }
+
+
 }
